@@ -1,0 +1,138 @@
+<template id="maze">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maze Runner</title>
+</head>
+<body>
+<div id="instructionsPopup">
+  <div id="instructionsBox">
+    <h2>Welcome to Maze Runner</h2>
+    <p>Use arrows to move. Space to arm/start timer. R to reset. Customize settings and chase records.</p>
+    <label><input type="checkbox" id="hideInstructionsCheckbox"> Do not show again</label>
+    <button id="closeInstructionsBtn">Continue</button>
+  </div>
+</div>
+<header>
+  <h1>Maze Runner Studio</h1>
+  <span>Local Session · Arrows · Space · R</span>
+</header>
+<aside class="left">
+  <h2>Settings</h2>
+  <div class="field-group">
+    <label>Difficulty</label>
+    <select id="difficultySelect">
+      <option value="10">Very Easy (10×10)</option>
+      <option value="20">Easy (20×20)</option>
+      <option value="30" selected>Normal (30×30)</option>
+      <option value="50">Hard (50×50)</option>
+      <option value="100">Hell (100×100)</option>
+    </select>
+  </div>
+  <div class="field-group">
+    <label>Movement Mode</label>
+    <div id="movementModePills" style="display:flex;gap:6px;">
+      <div class="pill-option active" data-mode="increment">Increment</div>
+      <div class="pill-option" data-mode="sliding">Sliding</div>
+    </div>
+  </div>
+  <div class="field-group">
+    <label>Player Color</label>
+    <input type="color" id="playerColorPicker" value="#f97373">
+  </div>
+  <div class="field-group">
+    <label>Goal Color</label>
+    <input type="color" id="goalColorPicker" value="#60a5fa">
+  </div>
+  <div class="button-row">
+  <button id="generateMapBtn" class="btn-primary">Generate</button>
+  <button id="resetMapBtn" class="btn-ghost">Reset</button>
+  <button id="hardResetBtn" class="btn-warning">Hard Reset</button>
+</div>
+
+<h2>Saved Maps</h2>
+<div id="savedMapsList" class="saved-maps-list"></div>
+</aside>
+
+<aside class="right">
+<h2>Leaderboard</h2>
+<div id="currentMapLabel" style="font-size:12px;margin-bottom:6px;">No map loaded</div>
+<div id="leaderboardList" class="leaderboard-list-inner">
+  <div class="leaderboard-empty">Generate or load a map to start tracking times.</div>
+</div>
+
+<h2 style="margin-top:14px;">Map JSON</h2>
+<div id="mapJsonOutput" class="json-output empty">No map generated yet.</div>
+
+<div class="button-row" style="margin-top:6px;">
+  <button id="copyMapJsonBtn" class="btn-ghost">Copy</button>
+  <button id="clearMapJsonBtn" class="btn-ghost">Clear</button>
+</div>
+
+<div class="field-group" style="margin-top:10px;">
+  <label>Load From JSON</label>
+  <textarea id="mapJsonInput" placeholder="Paste map JSON here..."></textarea>
+</div>
+
+<button id="loadMapFromJsonBtn" class="btn-primary" style="margin-top:6px;width:100%;">Load Map</button>
+</aside>
+
+<main>
+<div class="maze-shell" id="mazeShell">
+  <div class="maze-container">
+    <div class="maze-inner"></div>
+  </div>
+
+  <div id="statusToast">Ready</div>
+
+  <div style="position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:4px;">
+    <span style="font-size:11px;color:#9ca3af;">Timer</span>
+    <span id="timerDisplay">0.000</span>
+    <span id="timerStatusIndicator">Ready</span>
+  </div>
+
+  <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px;">
+    <button id="startRunBtn" class="btn-ghost">Start</button>
+    <button id="fullscreenToggleBtn" class="btn-ghost">⛶</button>
+  </div>
+</div>
+</main>
+
+<footer>
+<div>
+  <span style="font-size:12px;color:#9ca3af;">Arrows to move · Space to arm/start · R to reset</span>
+</div>
+<div class="button-row">
+  <button id="generateMapFooterBtn" class="btn-ghost">Generate</button>
+</div>
+</footer>
+
+<script src="Scripts/data.js"></script>
+<script src="Scripts/main.js"></script>
+</body>
+</html>
+</template>
+  <script>
+const newTab = window.open("about:blank", "_blank")
+const tpl = document.getElementById("maze").innerHTML
+
+const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maze Dasher</title>
+</head>
+<body>
+${tpl}
+<link rel="stylesheet" href="styles.css">
+<script src="maze.js"><\/script>
+</body>
+</html>`
+
+newTab.document.open()
+newTab.document.write(html)
+newTab.document.close()
+setTimeout(() => { window.close() }, 100)
+</script>
